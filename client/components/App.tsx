@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { getRandomPokemon } from '../apiClient.ts'
+import { useState, useEffect } from 'react'
+import { getPokemon } from '../apiClient.ts'
 import { Pokemon, LoadingState } from '../../models/pokemon.ts'
 import '../styles/main.css'
 
@@ -7,28 +7,56 @@ function App() {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null)
   const [loadingState, setLoadingState] = useState<LoadingState>('idle')
   const [error, setError] = useState<string | null>(null)
+  const [pokemonId, setPokemonId] = useState(1)
+  const [searchTerm, setSearchTerm] = useState('')
 
-  const handleGetRandomPokemon = async () => {
-    // Show loading spinner and clear previous errors
+  const handleClearResults = () => {
+    setPokemon(null)
+    setError(null)
+    setLoadingState('idle')
+  }
+
+  const handleGetRandomPokemon = () => {
+    const randomId = Math.floor(Math.random() * 905) + 1
+    setPokemonId(randomId)
+  }
+
+  const handleFetchPokemon = async (id: number | string) => {
     setLoadingState('loading')
     setError(null)
-
     try {
-      // Fetch a random Pokemon from the API
-      const data = await getRandomPokemon()
-      // Update state with the fetched Pokemon
+      const data = await getPokemon(id)
       setPokemon(data)
+      // IMPORTANT: Update pokemonId state if the search was by name
+      setPokemonId(data.id)
       setLoadingState('success')
     } catch (err) {
-      // Log the error for debugging
-      console.error('Error fetching random Pokemon:', err)
-      // Show an error message to the user
-      setError('Failed to fetch random Pokemon. Please try again.')
+      console.error(err)
+      setError('Failed to fetch Pokémon. Please try again.')
       setLoadingState('error')
-      // Clear any old Pokemon data
-      setPokemon(null)
     }
   }
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchTerm) {
+      handleFetchPokemon(searchTerm.toLowerCase())
+    }
+  }
+
+  // Fetches a random pokemon on initial load
+  useEffect(() => {
+    handleGetRandomPokemon()
+  }, [])
+
+  // Fetches a pokemon whenever the ID changes
+  useEffect(() => {
+    // We check pokemonId to avoid running on initial mount when it's 1
+    // and the random fetch is already running.
+    if (pokemonId) {
+      handleFetchPokemon(pokemonId)
+    }
+  }, [pokemonId])
 
   return (
     <div className="app-container">
@@ -38,14 +66,63 @@ function App() {
         loading states, and TypeScript integration.
       </p>
 
-      <div className="search-form">
-        <button
-          onClick={handleGetRandomPokemon}
-          disabled={loadingState === 'loading'}
-          className="button"
-        >
-          {loadingState === 'loading' ? 'Loading...' : 'Get Random Pokemon'}
-        </button>
+      <div className="header-controls">
+        {/* LEFT GROUP: All action buttons */}
+        <div className="button-group">
+          {/* Item 1: The "Random" button, on its own */}
+          <button
+            onClick={handleGetRandomPokemon}
+            disabled={loadingState === 'loading'}
+            className="button"
+          >
+            Random
+          </button>
+
+          {/* Item 2: A new div for the middle group */}
+          <div className="center-buttons">
+            <button
+              onClick={() => setPokemonId(pokemonId - 1)}
+              disabled={pokemonId <= 1 || loadingState === 'loading'}
+              className="button"
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => setPokemonId(pokemonId + 1)}
+              disabled={loadingState === 'loading'}
+              className="button"
+            >
+              Next
+            </button>
+          </div>
+
+          {/* Item 3: The "Clear" button, on its own */}
+          <button
+            onClick={handleClearResults}
+            disabled={loadingState === 'loading'}
+            className="button"
+          >
+            Clear
+          </button>
+        </div>
+
+        {/* RIGHT GROUP: The search form */}
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Enter name or ID"
+            disabled={loadingState === 'loading'}
+          />
+          <button
+            type="submit"
+            disabled={loadingState === 'loading'}
+            className="button"
+          >
+            Search
+          </button>
+        </form>
       </div>
 
       {/* Loading State */}
@@ -105,9 +182,10 @@ function App() {
       )}
 
       {/* Idle State */}
-      {loadingState === 'idle' && (
+      {!pokemon && loadingState === 'idle' && (
         <div>
-          <p>{`Click "Get Random Pokemon" to start!`}</p>
+          <p>{`Click "Random" to start!
+`}</p>
         </div>
       )}
     </div>

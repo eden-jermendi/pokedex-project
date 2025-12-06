@@ -1,4 +1,3 @@
-
 body {
   font-family: sans-serif;
   background-color: #f8f9fa;
@@ -12,7 +11,8 @@ body {
 }
 
 .search-form {
-  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .search-input {
@@ -36,6 +36,37 @@ body {
 .button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+.buttons {
+  display: flex;
+}
+
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between; /* This spreads the 3 items out */
+  align-items: center;
+  flex-grow: 1; /* This makes the group take up the available space */
+  margin-right: 2rem; /* Adds a nice gap before the search form */
+}
+
+.center-buttons {
+  display: flex;
+  gap: 0.5rem; /* This keeps the "Previous" and "Next" buttons close together */
+}
+
+.search-form input {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .loading-container {
