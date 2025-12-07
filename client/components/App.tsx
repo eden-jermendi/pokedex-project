@@ -49,7 +49,7 @@ function App() {
     console.log('Pokemon:', pokemon)
     console.log('Audio ref:', audioRef.current)
     if (pokemon && audioRef.current) {
-      const cryUrl = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/${pokemon.id}.ogg`
+      const cryUrl = `https://play.pokemonshowdown.com/audio/cries/${pokemon.name.toLowerCase()}.mp3`
       console.log('Cry URL:', cryUrl)
       audioRef.current.src = cryUrl
       const playPromise = audioRef.current.play()
