@@ -1,143 +1,278 @@
+/* Pokedex-GBA Inspired Theme */
+:root {
+  --pokedex-red: #d9222a;
+  --pokedex-red-dark: #a31a20;
+  --screen-bg: #d8d8c0;
+  --screen-border: #4a4a4a;
+  --button-blue: #3d5afe;
+  --button-green: #4caf50;
+  --text-dark: #1e1e1e;
+  --text-light: #f5f5f5;
+  --white: #ffffff;
+  --black: #000000;
+  --light-gray: #f0f0f0;
+}
+
 body {
-  font-family: sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
-}
-
-.app-container {
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.search-form {
+  background-color: var(--pokedex-red-dark);
+  font-family: 'Press Start 2P', sans-serif; /* A pixel font would be great */
   display: flex;
-  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.search-input {
-  padding: 0.5rem;
-  margin-right: 0.5rem;
-  font-size: 1rem;
-  min-width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-}
-
-.button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.buttons {
+.pokedex {
+  background-color: var(--pokedex-red);
+  border: 5px solid var(--black);
+  border-radius: 10px 10px 10px 40px;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  box-shadow: 
+    inset 5px 5px 0px rgba(255, 255, 255, 0.4), 
+    inset -5px -5px 0px rgba(0, 0, 0, 0.3),
+    5px 5px 15px rgba(0, 0, 0, 0.5);
   display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
-.header-controls {
+.pokedex-header {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 5px solid var(--black);
+}
+
+.camera-lens {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, #80d8ff, #00796b);
+  border-radius: 50%;
+  border: 5px solid var(--white);
+  box-shadow: inset 0 0 10px var(--black);
+  margin-right: 15px;
+}
+
+.lights {
+  display: flex;
+  gap: 10px;
+}
+
+.light {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--black);
+}
+
+.light.red { background-color: #f44336; }
+.light.yellow { background-color: #ffeb3b; }
+.light.green { background-color: var(--button-green); }
+
+.pokedex-screen-container {
+  background-color: var(--light-gray);
+  margin: 20px;
+  padding: 20px;
+  border: 5px solid var(--black);
+  border-radius: 5px;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.screen-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.speaker {
+  width: 8px;
+  height: 8px;
+  background-color: var(--screen-border);
+  margin: 0 4px;
+  border-radius: 50%;
+}
+
+.pokedex-screen {
+  background-color: var(--screen-bg);
+  border: 3px solid var(--screen-border);
+  border-radius: 5px;
+  padding: 20px;
+  min-height: 400px; /* Give the screen a good size */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pokedex-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  padding: 0 20px 20px 20px;
 }
 
-.button-group {
+.d-pad {
+  display: grid;
+  grid-template-columns: 30px 30px 30px;
+  grid-template-rows: 30px 30px 30px;
+  gap: 3px;
+}
+
+.d-pad-btn {
+  background-color: var(--screen-border);
+  cursor: pointer;
+  border: 2px solid var(--black);
+}
+.d-pad-btn:hover { background-color: #666; }
+.up { grid-column: 2; grid-row: 1; }
+.left { grid-column: 1; grid-row: 2; }
+.center { grid-column: 2; grid-row: 2; background-color: #333; }
+.right { grid-column: 3; grid-row: 2; }
+.down { grid-column: 2; grid-row: 3; }
+
+
+.action-buttons {
   display: flex;
-  justify-content: space-between; /* This spreads the 3 items out */
-  align-items: center;
-  flex-grow: 1; /* This makes the group take up the available space */
-  margin-right: 2rem; /* Adds a nice gap before the search form */
+  gap: 15px;
 }
 
-.center-buttons {
-  display: flex;
-  gap: 0.5rem; /* This keeps the "Previous" and "Next" buttons close together */
-}
-
-.search-form input {
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.loading-container {
+.action-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid var(--black);
+  cursor: pointer;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 10px;
   text-align: center;
-  padding: 2rem;
+  padding: 0;
 }
 
-.loading-spinner {
-  font-size: 2rem;
+.action-btn.green {
+  background-color: var(--button-green);
+  color: var(--white);
+  width: 80px; /* Bigger */
+  height: 80px; /* Bigger */
+  font-size: 12px;
+}
+.action-btn.blue {
+  background-color: var(--button-blue);
+  color: var(--white);
+  width: 60px; /* A little bigger */
+  height: 60px; /* A little bigger */
+  font-size: 10px;
 }
 
-.error-message {
-  background-color: #fee;
-  border: 1px solid #fcc;
-  border-radius: 4px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  color: #c33;
+.aux-controls {
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px 20px 20px;
+  justify-content: center;
 }
+
+.aux-btn {
+  width: 60px;
+  height: 25px;
+  background-color: var(--screen-border);
+  border-radius: 5px;
+  border: 2px solid var(--black);
+  cursor: pointer;
+}
+
+
+/* Pokemon specific styles inside the screen */
 
 .pokemon-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
-.pokemon-card:hover {
-  transform: scale(1.05);
+.pokemon-name {
+  font-size: 1.5em;
+  text-transform: capitalize;
+  margin: 0;
+  background-color: var(--screen-border);
+  color: var(--text-light);
+  padding: 5px 15px;
+  border-radius: 3px;
+}
+
+.pokemon-id-display {
+  font-size: 1em;
+  text-transform: capitalize;
+  margin: 0;
+  margin-top: 5px; /* Add some space above the ID */
+  background-color: var(--screen-border);
+  color: var(--text-light);
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+
+.pokemon-image-container {
+  background-color: #fff;
+  border: 3px solid var(--screen-border);
+  border-radius: 5px;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pokemon-image {
-  max-width: 200px;
-  height: auto;
-  margin-bottom: 1rem;
+  width: 150px;
+  height: 150px;
+  image-rendering: pixelated; /* Keeps the pixel art sharp */
 }
 
 .pokemon-info {
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
+  justify-content: space-around;
+  width: 100%;
+  gap: 10px;
+  font-size: 0.8em;
 }
 
 .info-item {
   text-align: center;
 }
 
-.pokemon-name {
-  text-transform: capitalize;
-  margin-bottom: 1rem;
+.info-item h3 {
+  margin: 0 0 5px 0;
+  font-size: 1em;
 }
 
-.pokemon-ability {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #555;
-}
-
-.pokemon-type {
-  margin: 0.5rem 0;
-  text-transform: capitalize;
-}
-
-.types-list {
+.types-list, .abilities-list {
   list-style: none;
   padding: 0;
+  margin: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pokemon-type, .pokemon-ability {
+  background-color: #ccc;
+  padding: 3px 8px;
+  border-radius: 3px;
+  text-transform: capitalize;
+}
+
+.loading-container, .error-message {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-dark);
+}
+
+.loading-spinner {
+  font-size: 3em;
 }
