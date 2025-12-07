@@ -139,6 +139,26 @@ body {
 .down { grid-column: 2; grid-row: 3; }
 
 
+.play-cry-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--button-blue); /* Using a blue color, can be adjusted */
+  color: var(--white);
+  border: 3px solid var(--black);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em; /* Speaker icon size */
+  margin: auto; /* Center it between the d-pad and action buttons */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.play-cry-button:hover {
+  background-color: var(--button-green); /* Example hover effect */
+}
+
 .action-buttons {
   display: flex;
   gap: 15px;

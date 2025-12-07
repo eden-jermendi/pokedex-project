@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { getPokemon } from '../apiClient.ts'
 import { Pokemon, LoadingState, TYPE_COLORS } from '../../models/pokemon.ts'
 import '../styles/main.css'
@@ -9,6 +9,7 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const [pokemonId, setPokemonId] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
+  const audioRef = useRef<HTMLAudioElement>(null) // Ref for the audio element
 
   const handleClearResults = () => {
     setPokemon(null)
@@ -40,6 +41,14 @@ function App() {
     e.preventDefault()
     if (searchTerm) {
       handleFetchPokemon(searchTerm.toLowerCase())
+    }
+  }
+
+  const playCry = () => {
+    if (pokemon && audioRef.current) {
+      const cryUrl = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/${pokemon.id}.ogg`
+      audioRef.current.src = cryUrl
+      audioRef.current.play().catch((error) => console.error('Error playing audio:', error))
     }
   }
 
@@ -150,7 +159,7 @@ function App() {
           </form>
         </div>
       </div>
-
+      <audio ref={audioRef} preload="auto" /> {/* Audio element for cries */}
       <div className="pokedex-controls">
         <div className="d-pad">
           <button
@@ -175,6 +184,14 @@ function App() {
             disabled={pokemonId <= 10 || loadingState === 'loading'}
           />
         </div>
+        {/* Play Cry Button */}
+        <button
+          className="play-cry-button"
+          onClick={playCry}
+          disabled={!pokemon || loadingState === 'loading'}
+        >
+          🔊
+        </button>
         <div className="action-buttons">
           <button
             className="action-btn green"
