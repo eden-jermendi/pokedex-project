@@ -45,10 +45,26 @@ function App() {
   }
 
   const playCry = () => {
+    console.log('playCry function called')
+    console.log('Pokemon:', pokemon)
+    console.log('Audio ref:', audioRef.current)
     if (pokemon && audioRef.current) {
       const cryUrl = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/${pokemon.id}.ogg`
+      console.log('Cry URL:', cryUrl)
       audioRef.current.src = cryUrl
-      audioRef.current.play().catch((error) => console.error('Error playing audio:', error))
+      const playPromise = audioRef.current.play()
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            // Automatic playback started!
+            console.log('Audio playback started successfully.')
+          })
+          .catch((error) => {
+            // Auto-play was prevented
+            console.error('Error playing audio:', error)
+          })
+      }
     }
   }
 
