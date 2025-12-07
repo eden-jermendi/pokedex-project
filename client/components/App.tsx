@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getPokemon } from '../apiClient.ts'
-import { Pokemon, LoadingState } from '../../models/pokemon.ts'
+import { Pokemon, LoadingState, TYPE_COLORS } from '../../models/pokemon.ts'
 import '../styles/main.css'
 
 function App() {
@@ -90,11 +90,24 @@ function App() {
                 <div className="info-item">
                   <h3>Types</h3>
                   <ul className="types-list">
-                    {pokemon.types.map((type) => (
-                      <li key={type.slot} className="pokemon-type">
-                        {type.type.name}
-                      </li>
-                    ))}
+                    {pokemon.types.map((type) => {
+                      const typeStyle = TYPE_COLORS[type.type.name] || {
+                        background: '#ccc',
+                        text: '#000',
+                      }
+                      return (
+                        <li
+                          key={type.slot}
+                          className="pokemon-type"
+                          style={{
+                            backgroundColor: typeStyle.background,
+                            color: typeStyle.text,
+                          }}
+                        >
+                          {type.type.name}
+                        </li>
+                      )
+                    })}
                   </ul>
                 </div>
                 <div className="info-item">
