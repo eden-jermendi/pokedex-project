@@ -206,17 +206,7 @@ function App() {
           onClick={playCry}
           disabled={!pokemon || loadingState === 'loading'}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path
-              d="M14.017 21.017l-10.017-11.017h-3l-1-2h3l10.017-11.017c.509-.509 1.45-.468 1.905.108.455.576.326 1.442-.239 1.906l-6.208 6.991h6.539l2.766 2.871c.548.567.457 1.488-.111 2.035l-.216.208c-.567.548-1.488.457-2.035-.111l-2.766-2.871h-6.539l6.208 6.991c.565.464.694 1.33.239 1.906-.455.576-1.396.617-1.905.108z"
-            />
-          </svg>
+          🔊
         </button>
         <div className="action-buttons">
           <button
