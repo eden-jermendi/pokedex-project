@@ -9,6 +9,7 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const [pokemonId, setPokemonId] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
+  const [volume, setVolume] = useState(1)
   const audioRef = useRef<HTMLAudioElement>(null) // Ref for the audio element
 
   const handleClearResults = () => {
@@ -68,9 +69,20 @@ function App() {
     }
   }
 
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVolume = parseFloat(e.target.value)
+    setVolume(newVolume)
+  }
+
   useEffect(() => {
     handleFetchPokemon(pokemonId)
   }, [pokemonId])
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume
+    }
+  }, [volume])
 
   return (
     <div className="pokedex">
@@ -200,22 +212,32 @@ function App() {
             disabled={pokemonId <= 10 || loadingState === 'loading'}
           />
         </div>
-        {/* Play Cry Button */}
-        <button
-          className="play-cry-button"
-          onClick={playCry}
-          disabled={!pokemon || loadingState === 'loading'}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="currentColor"
+        <div className="speaker-controls">
+          <button
+            className="play-cry-button"
+            onClick={playCry}
+            disabled={!pokemon || loadingState === 'loading'}
           >
-            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+            </svg>
+          </button>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={volume}
+            onChange={handleVolumeChange}
+            className="volume-slider"
+          />
+        </div>
         <div className="action-buttons">
           <button
             className="action-btn green"
