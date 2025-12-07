@@ -117,6 +117,25 @@ function App() {
             </div>
           )}
         </div>
+        <div className="aux-controls">
+          <form onSubmit={handleSearch} className="search-form">
+            <input
+              type="text"
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Name or ID"
+              disabled={loadingState === 'loading'}
+            />
+            <button
+              type="submit"
+              className="aux-btn"
+              disabled={loadingState === 'loading'}
+            >
+              Search
+            </button>
+          </form>
+        </div>
       </div>
 
       <div className="pokedex-controls">
@@ -159,26 +178,6 @@ function App() {
             CLEAR
           </button>
         </div>
-      </div>
-
-      <div className="aux-controls">
-        <form onSubmit={handleSearch} className="search-form">
-          <input
-            type="text"
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Name or ID"
-            disabled={loadingState === 'loading'}
-          />
-          <button
-            type="submit"
-            className="aux-btn"
-            disabled={loadingState === 'loading'}
-          >
-            Search
-          </button>
-        </form>
       </div>
     </div>
   )
